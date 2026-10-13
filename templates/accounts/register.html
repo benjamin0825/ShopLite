@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Register | ShopLite{% endblock %}
+
+{% block content %}
+<div class="form-card narrow">
+  <h1>Create an account</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="button">Register</button>
+  </form>
+  <p>Already registered? <a href="{% url 'accounts:login' %}">Log in</a></p>
+</div>
+{% endblock %}

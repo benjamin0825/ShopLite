@@ -1,0 +1,48 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}ShopLite{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="{% url 'catalog:product_list' %}">Shop<span>Lite</span></a>
+      <nav class="nav">
+        <a href="{% url 'catalog:product_list' %}">Shop</a>
+        {% if user.is_authenticated %}
+          <span class="nav-user">Hi, {{ user.username }}</span>
+          <form method="post" action="{% url 'accounts:logout' %}" class="inline-form">
+            {% csrf_token %}
+            <button type="submit" class="link-button">Log out</button>
+          </form>
+        {% else %}
+          <a href="{% url 'accounts:login' %}">Log in</a>
+          <a href="{% url 'accounts:register' %}">Register</a>
+        {% endif %}
+        <a class="cart-link" href="{% url 'cart:cart_detail' %}">
+          Cart <span class="badge">{{ cart|length }}</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="message message-{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">&copy; ShopLite &middot; Python developer assessment project</div>
+  </footer>
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

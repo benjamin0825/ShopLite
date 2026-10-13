@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} | ShopLite{% endblock %}
+
+{% block content %}
+<a href="{{ product.category.get_absolute_url }}" class="back-link">&larr; {{ product.category.name }}</a>
+<div class="product-detail">
+  <div class="product-image large">
+    {% if product.image_url %}
+      <img src="{{ product.image_url }}" alt="{{ product.name }}">
+    {% else %}
+      <div class="placeholder">{{ product.name|slice:":1" }}</div>
+    {% endif %}
+  </div>
+  <div class="product-info">
+    <h1>{{ product.name }}</h1>
+    <p class="price large">${{ product.price }}</p>
+    <p class="description">{{ product.description|linebreaksbr }}</p>
+
+    <form action="{% url 'cart:cart_add' product.id %}" method="post" class="add-to-cart">
+      {% csrf_token %}
+      {{ cart_product_form }}
+      <button type="submit" class="button">Add to cart</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

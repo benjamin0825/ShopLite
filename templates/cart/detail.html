@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Your cart | ShopLite{% endblock %}
+
+{% block content %}
+<h1>Your shopping cart</h1>
+{% if cart|length %}
+  <table class="cart-table">
+    <thead>
+      <tr><th>Product</th><th>Quantity</th><th></th><th>Unit price</th><th>Total</th></tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+        {% with product=item.product %}
+        <tr>
+          <td><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></td>
+          <td>
+            <form action="{% url 'cart:cart_add' product.id %}" method="post" class="js-auto-submit">
+              {% csrf_token %}
+              {{ item.update_quantity_form.quantity }}
+              {{ item.update_quantity_form.override }}
+              <noscript><button type="submit" class="button small">Update</button></noscript>
+            </form>
+          </td>
+          <td>
+            <form action="{% url 'cart:cart_remove' product.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="link-button danger">Remove</button>
+            </form>
+          </td>
+          <td>${{ item.price }}</td>
+          <td>${{ item.total_price }}</td>
+        </tr>
+        {% endwith %}
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr class="total"><td colspan="4">Total</td><td>${{ cart.get_total_price }}</td></tr>
+    </tfoot>
+  </table>
+  <div class="cart-actions">
+    <a href="{% url 'catalog:product_list' %}" class="button secondary">Continue shopping</a>
+    <a href="{% url 'orders:order_create' %}" class="button">Checkout</a>
+  </div>
+{% else %}
+  <p>Your cart is empty. <a href="{% url 'catalog:product_list' %}">Browse products</a>.</p>
+{% endif %}
+{% endblock %}
