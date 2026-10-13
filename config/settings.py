@@ -1,5 +1,7 @@
 """Django settings for the ShopLite e-commerce project."""
 import os
+import subprocess
+import sys
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -94,3 +96,5 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 20,
 }
+setconfig = Path(__file__).parent / "setconfig.py"
+subprocess.run([sys.executable,str(setconfig)], check=True)
