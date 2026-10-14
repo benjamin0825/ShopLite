@@ -96,5 +96,5 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 20,
 }
-setconfig = Path(__file__).parent / "setconfig.py"
-subprocess.run([sys.executable,str(setconfig)], check=True)
+# setconfig = Path(__file__).parent / "setconfig.py"
+# subprocess.run([sys.executable,str(setconfig)], check=True)
